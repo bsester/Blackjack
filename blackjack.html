@@ -2,9 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src = "js/game.js"></script>
+    <link rel = "stylesheet" href = "css/main.css">
     <title>Best Blackjack!</title>
 </head>
-<body>
+<body id = "container">
+<div id = "header">
+    Blackjack Plus <br>
+    <img id = "logo" src = "imgs/allSuits.png" alt = "logo">
+</div>
 
+<div id = "bet">
+    <h2> Place your bet. </h2>
+    <br>
+    Enter bet to start.
+    <br>
+    <label for="betInput"> Bet
+        <input type = 'number' id = "betInput">
+    </label>
+    <button id = "betButton"> Bet </button>
+</div>
+
+<div id = "play">
+    Play area!
+</div>
+
+<div id = "footer">
+    Game by Ben Sester - 2023
+</div>
 </body>
 </html>
