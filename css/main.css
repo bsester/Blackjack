@@ -5,11 +5,15 @@
     "header header header"
     "bet play play"
     "footer footer footer";
-    grid-template-columns: 1fr 1fr 1fr;
+    overflow: hidden;
+}
+.gridItem
+{
+    outline: 2px solid black;
 }
 div
 {
-    border: solid black 2px;
+
 }
 #logo
 {
