@@ -53,8 +53,13 @@ let cards =
         {name: "queen_of_hearts", value: 10, img: "imgs/cards/queen_of_hearts.png", dealt: false},
         {name: "queen_of_spades", value: 10, img: "imgs/cards/queen_of_clubs.png", dealt: false}
     ];
+let numCards = 52;
 function getCard()
 {
+    if (numCards <= 0)
+        reshuffle();
+
+
     let valid = false;
     let idx = -1;
     while (!valid)
@@ -63,9 +68,16 @@ function getCard()
         if (!cards[idx].dealt)
         {
             valid = true;
+            cards[idx].dealt = true;
+            numCards--;
         }
     }
     let src = '"' + cards[idx].img + '"';
-    console.log(src);
+
     document.getElementById("play").innerHTML = '<img src = ' + src + 'alt = "your card">';
+    return cards[idx];
+}
+function reshuffle()
+{
+
 }
