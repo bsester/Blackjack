@@ -58,8 +58,7 @@ function getCard()
 {
     if (numCards <= 0)
         reshuffle();
-
-
+    
     let valid = false;
     let idx = -1;
     while (!valid)
@@ -72,10 +71,13 @@ function getCard()
             numCards--;
         }
     }
-    let src = '"' + cards[idx].img + '"';
-
-    document.getElementById("play").innerHTML = '<img src = ' + src + 'alt = "your card">';
     return cards[idx];
+}
+function displayCard()
+{
+    let card = getCard();
+    let src = '"' + card.img + '"';
+    document.getElementById("play").innerHTML = '<img src = ' + src + 'alt = "your card">';
 }
 function reshuffle()
 {
