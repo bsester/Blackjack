@@ -53,14 +53,19 @@ let cards =
         {name: "queen_of_hearts", value: 10, img: "imgs/cards/queen_of_hearts.png", dealt: false},
         {name: "queen_of_spades", value: 10, img: "imgs/cards/queen_of_clubs.png", dealt: false}
     ];
-function cardTest()
+function getCard()
 {
-    let oStr = "";
-    for (let i=0; i<cards.length;i++)
+    let valid = false;
+    let idx = -1;
+    while (!valid)
     {
-        console.log(cards[i]);
-        oStr += `<img src ="${cards[i].img}" id = "logo" alt="${cards[i].name}">`;
+        idx = Math.floor( Math.random() * cards.length );
+        if (!cards[idx].dealt)
+        {
+            valid = true;
+        }
     }
-    let results = document.getElementById("play");
-    results.innerHTML = oStr;
+    let src = '"' + cards[idx].img + '"';
+    console.log(src);
+    document.getElementById("play").innerHTML = '<img src = ' + src + 'alt = "your card">';
 }
