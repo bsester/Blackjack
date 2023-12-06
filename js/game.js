@@ -58,7 +58,7 @@ function getCard()
 {
     if (numCards <= 0)
         reshuffle();
-    
+
     let valid = false;
     let idx = -1;
     while (!valid)
