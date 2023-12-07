@@ -54,32 +54,52 @@ let cards =
         {name: "queen_of_spades", value: 10, img: "imgs/cards/queen_of_clubs.png", dealt: false}
     ];
 let numCards = 52;
-function getCard()
-{
-    if (numCards <= 0)
-        reshuffle();
 
-    let valid = false;
-    let idx = -1;
-    while (!valid)
+
+class Player // -------------------------------- PLAYER CLASS
+{
+    constructor(hand, bal)
     {
-        idx = Math.floor( Math.random() * cards.length );
-        if (!cards[idx].dealt)
-        {
-            valid = true;
-            cards[idx].dealt = true;
-            numCards--;
-        }
+        this.hand = hand;
+        this.bal = bal;
     }
-    return cards[idx];
-}
-function displayCard()
-{
-    let card = getCard();
-    let src = '"' + card.img + '"';
-    document.getElementById("play").innerHTML = '<img src = ' + src + 'alt = "your card">';
-}
-function reshuffle()
-{
+    getBal()
+    {
+        return this.bal;
+    }
+    getHand()
+    {
+        return this.hand;
+    }
+    dealCard(numCards, cards)
+    {
+        if (numCards <= 0)
+            reshuffle(cards);
 
+        let valid = false;
+        let idx = -1;
+        while (!valid)
+        {
+            idx = Math.floor( Math.random() * cards.length );
+            if (!cards[idx].dealt)
+            {
+                valid = true;
+                cards[idx].dealt = true;
+                numCards--;
+            }
+        }
+        this.hand.push(cards[idx]);
+    }
+}
+// ------------------- END PLAYER CLASS ------------------------------
+function reshuffle(cards)
+{
+    for (let i=0;i<cards.length;i++)
+        cards[i].dealt = false;
+
+}
+function startGame()
+{
+    // execution flow
+    // 
 }
