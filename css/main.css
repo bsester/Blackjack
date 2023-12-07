@@ -32,7 +32,7 @@ div
 #bet
 {
     grid-area: bet;
-    height: 65vh;
+    height: 66vh;
     padding: 2vh;
     background-color: khaki;
 }
@@ -45,8 +45,18 @@ div
 {
     grid-area: play;
     background-color: khaki;
-    height: 65vh;
+    height: 66vh;
     padding: 2vh;
+}
+#playerArea, #dealerArea
+{
+    height: 33vh;
+}
+#playCard
+{
+    height: 12vh;
+    width: 9vh;
+    margin: 1vh;
 }
 #footer
 {

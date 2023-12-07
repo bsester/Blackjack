@@ -1,4 +1,4 @@
-let cards =
+let allCards =
     [
         {name: "2_of_clubs", value: 2, img: "imgs/cards/2_of_clubs.png", dealt: false},
         {name: "2_of_diamonds", value: 2, img: "imgs/cards/2_of_diamonds.png", dealt: false},
@@ -54,6 +54,22 @@ let cards =
         {name: "queen_of_spades", value: 10, img: "imgs/cards/queen_of_clubs.png", dealt: false}
     ];
 
+class Deck // --------------------------------- DECK CLASS
+{
+    constructor(cards, numCards)
+    {
+        this.numCards = 52;
+        this.cards = cards;
+    }
+    reshuffle()
+    {
+        alert('reshuffling!');
+        for (let i=0;i<this.cards.length;i++)
+            this.cards[i].dealt = false;
+        this.numCards = this.cards.length;
+    }
+}
+// ------------------- END DECK CLASS ------------------------------
 
 class Player // -------------------------------- PLAYER CLASS
 {
@@ -70,40 +86,78 @@ class Player // -------------------------------- PLAYER CLASS
     {
         return this.hand;
     }
-    dealCard(numCards, cards)
+    dealCard(deck)
     {
-        if (numCards <= 0)
-            reshuffle(cards);
-
+        if (deck.numCards <= 0)
+            deck.reshuffle();
+        
         let valid = false;
         let idx = -1;
         while (!valid)
         {
-            idx = Math.floor( Math.random() * cards.length );
-            if (!cards[idx].dealt)
+            idx = Math.floor( Math.random() * deck.cards.length );
+            if (!deck.cards[idx].dealt)
             {
                 valid = true;
-                cards[idx].dealt = true;
-                numCards--;
+                deck.cards[idx].dealt = true;
+                deck.numCards--;
             }
         }
-        this.hand.push(cards[idx]);
+        this.hand.push(deck.cards[idx]);
     }
 }
 // ------------------- END PLAYER CLASS ------------------------------
 
-// number of cards left in deck
-let numCards = 52;
 // objects to keep track of data
 let player = new Player([], 1000);
 let dealer = new Player([], 1000);
-function reshuffle(cards)
+let deck = new Deck(allCards, allCards.length);
+// function to start a round of gameplay
+function makeBet()
 {
-    for (let i=0;i<cards.length;i++)
-        cards[i].dealt = false;
+    player.hand = [];
+    dealer.hand = [];
+    let bet = 0;
+    if (!validateBet(bet))
+    {
+        // bad bet, error msg and leave
+    }
 
+    // deal 2 cards to each player
+    player.dealCard(deck);
+    player.dealCard(deck);
+
+    dealer.dealCard(deck);
+    dealer.dealCard(deck);
+    // check for victory, display game state
+    displayGameState(player, dealer);
 }
+function validateBet(bet)
+{
+    if (bet > player.bal)
+        return false
+    if (isNaN(bet))
+        return false;
+    return true;
+}
+function displayGameState(player, dealer)
+{
+    // show player cards
+    let result = document.getElementById("playerArea");
+    let oStr = "";
+    for (let i=0; i<player.hand.length;i++)
+        oStr += '<img src =' + '"' + player.hand[i].img + '"'
+            + 'id = "playCard"'+ '>';
+    result.innerHTML = oStr;
 
+    // show dealer cards
+    result = document.getElementById("dealerArea");
+    oStr = "";
+    for (let i=0; i<dealer.hand.length;i++)
+        oStr += '<img src =' + '"' + dealer.hand[i].img + '"'
+            + 'id = "playCard"'+ '>';
+    result.innerHTML = oStr;
+}
 // execution flow -------------
 // while (player.bal > 0)
 // {
