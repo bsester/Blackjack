@@ -63,7 +63,6 @@ class Deck // --------------------------------- DECK CLASS
     }
     reshuffle()
     {
-        alert('reshuffling!');
         for (let i=0;i<this.cards.length;i++)
             this.cards[i].dealt = false;
         this.numCards = this.cards.length;
@@ -90,7 +89,7 @@ class Player // -------------------------------- PLAYER CLASS
     {
         if (deck.numCards <= 0)
             deck.reshuffle();
-        
+
         let valid = false;
         let idx = -1;
         while (!valid)
@@ -118,7 +117,7 @@ function makeBet()
     player.hand = [];
     dealer.hand = [];
     let bet = 0;
-    if (!validateBet(bet))
+    if (!validateBet(player, bet))
     {
         // bad bet, error msg and leave
     }
@@ -132,7 +131,7 @@ function makeBet()
     // check for victory, display game state
     displayGameState(player, dealer);
 }
-function validateBet(bet)
+function validateBet(player, bet)
 {
     if (bet > player.bal)
         return false
