@@ -53,7 +53,6 @@ let cards =
         {name: "queen_of_hearts", value: 10, img: "imgs/cards/queen_of_hearts.png", dealt: false},
         {name: "queen_of_spades", value: 10, img: "imgs/cards/queen_of_clubs.png", dealt: false}
     ];
-let numCards = 52;
 
 
 class Player // -------------------------------- PLAYER CLASS
@@ -92,14 +91,28 @@ class Player // -------------------------------- PLAYER CLASS
     }
 }
 // ------------------- END PLAYER CLASS ------------------------------
+
+// number of cards left in deck
+let numCards = 52;
+// objects to keep track of data
+let player = new Player([], 1000);
+let dealer = new Player([], 1000);
 function reshuffle(cards)
 {
     for (let i=0;i<cards.length;i++)
         cards[i].dealt = false;
 
 }
-function startGame()
-{
-    // execution flow
-    // 
-}
+
+// execution flow -------------
+// while (player.bal > 0)
+// {
+//    validate bet
+//    give 2 cards each
+//    check victory, act accordingly
+//    while (no victory)
+//    {
+//      hit or stick
+//      check victory, act accordingly
+//    }
+// }
