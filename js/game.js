@@ -119,7 +119,8 @@ function makeBet()
     let bet = 0;
     if (!validateBet(player, bet))
     {
-        // bad bet, error msg and leave
+        alert('invalid bet');
+        return;
     }
 
     // deal 2 cards to each player
@@ -130,12 +131,40 @@ function makeBet()
     dealer.dealCard(deck);
     // check for victory, display game state
     displayGameState(player, dealer);
+    if (checkForBlackjack(player))
+    {
+        alert('player blackjack!');
+        return;
+    }
+    if (checkForBlackjack(dealer))
+    {
+        alert('dealer blackjack');
+        return;
+    }
+    let result = document.getElementById("playerArea");
+    if (!document.getElementById("play").innerHTML.includes("button"))
+        result.insertAdjacentHTML("afterend", "<button onclick='playerHit(player, deck)'> Hit </button> <button onclick='dealerHit(dealer, deck)'> Stay </button>");
+}
+function playerHit(player, deck)
+{
+
+}
+function dealerHit(player, deck)
+{
+
+}
+function checkForBlackjack(player)
+{
+    return ((player.hand[0].img.includes("ace") && player.hand[1].img.includes("jack"))
+    || (player.hand[1].img.includes("ace") && player.hand[0].img.includes("jack")));
 }
 function validateBet(player, bet)
 {
     if (bet > player.bal)
         return false
     if (isNaN(bet))
+        return false;
+    if (bet === '')
         return false;
     return true;
 }
