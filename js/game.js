@@ -76,6 +76,9 @@ class Player // -------------------------------- PLAYER CLASS
     {
         this.hand = hand;
         this.bal = bal;
+        this.wins = 0;
+        this.losses = 0;
+        this.handPts = 0;
     }
     getBal()
     {
@@ -99,6 +102,7 @@ class Player // -------------------------------- PLAYER CLASS
             {
                 valid = true;
                 deck.cards[idx].dealt = true;
+                this.handPts += deck.cards[idx].value;
                 deck.numCards--;
             }
         }
@@ -116,12 +120,15 @@ function makeBet()
 {
     player.hand = [];
     dealer.hand = [];
-    let bet = 0;
+    document.getElementById("playerArea").innerHTML = "";
+    document.getElementById("dealerArea").innerHTML = "";
+    let bet = document.getElementById("betInput").value;
     if (!validateBet(player, bet))
     {
         alert('invalid bet');
         return;
     }
+    player.bal -= bet;
 
     // deal 2 cards to each player
     player.dealCard(deck);
@@ -134,24 +141,72 @@ function makeBet()
     if (checkForBlackjack(player))
     {
         alert('player blackjack!');
+        player.bal += (bet * 2);
+        player.wins++;
+        document.getElementById("playerArea").innerHTML = "";
+        document.getElementById("dealerArea").innerHTML = "";
+        player.hand =[];
+        dealer.hand=[];
         return;
     }
     if (checkForBlackjack(dealer))
     {
         alert('dealer blackjack');
+        player.losses++;
+        document.getElementById("playerArea").innerHTML = "";
+        document.getElementById("dealerArea").innerHTML = "";
+        player.hand =[];
+        dealer.hand=[];
         return;
     }
     let result = document.getElementById("playerArea");
     if (!document.getElementById("play").innerHTML.includes("button"))
-        result.insertAdjacentHTML("afterend", "<button onclick='playerHit(player, deck)'> Hit </button> <button onclick='dealerHit(dealer, deck)'> Stay </button>");
-}
-function playerHit(player, deck)
-{
+        result.insertAdjacentHTML("afterend", "<button onclick='playerHit(player,dealer, deck)'> Hit </button> <button onclick='dealerHit(player,dealer, deck, bet)'> Stay </button>");
+
 
 }
-function dealerHit(player, deck)
+function playerHit(player, dealer, deck)
 {
-
+    player.dealCard(deck);
+    let result = document.getElementById("playerArea");
+    result.insertAdjacentHTML("afterend",'<img src =' + '"' + player.hand[player.hand.length-1].img + '"'
+        + 'id = "playCard"'+ '>' );
+    if (player.handPts>21)
+    {
+        alert('busted!');
+        player.losses++;
+        document.getElementById("playerArea").innerHTML = "";
+        document.getElementById("dealerArea").innerHTML = "";
+        player.hand =[];
+        dealer.hand=[];
+    }
+}
+function dealerHit(player,dealer, deck, bet)
+{
+    let result = document.getElementById("dealerArea");
+    while (dealer.handPts <= 17)
+    {
+        dealer.dealCard(deck);
+        result.insertAdjacentHTML("afterbegin",'<img src =' + '"' + player.hand[player.hand.length-1].img + '"'
+            + 'id = "playCard"'+ '>' );
+        if (dealer.handPts > 21)
+        {
+            alert('dealer bust!');
+            player.wins++;
+            player.bal += (1.5 * bet);
+            return;
+        }
+        else if (dealer.handPts >= player.handPts)
+        {
+            alert('dealer win!');
+            player.losses++;
+            return;
+        }
+    }
+    document.getElementById("playerArea").innerHTML = "";
+    document.getElementById("dealerArea").innerHTML = "";
+    player.hand =[];
+    dealer.hand=[];
 }
 function checkForBlackjack(player)
 {
@@ -160,13 +215,15 @@ function checkForBlackjack(player)
 }
 function validateBet(player, bet)
 {
+    console.log(player.bal);
+    console.log(bet);
+
     if (bet > player.bal)
         return false
     if (isNaN(bet))
         return false;
-    if (bet === '')
-        return false;
-    return true;
+    return bet !== '';
+
 }
 function displayGameState(player, dealer)
 {
